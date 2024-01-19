@@ -1,4 +1,5 @@
 ﻿
+using AttoProject.dto;
 using AttoProject.service;
 
 namespace AttoProject.controller
@@ -67,7 +68,7 @@ namespace AttoProject.controller
         // Admin Section
         public void adminMenu()
         {
-            Console.WriteLine("----- ADMIN MENU -----");
+            Console.WriteLine("\n----- ADMIN MENU -----\n");
             Console.WriteLine("1.Card Section");
             Console.WriteLine("2.Terminal Section");
             Console.WriteLine("3.Profile Section");
@@ -84,13 +85,13 @@ namespace AttoProject.controller
                     TerminalSection();
                     break;
                 case 3:
-                   Transaction();
+                   ProfleSection();
                     break;
                 case 4:
-                  Statistic();
+                   Transaction();
                     break;
                 case 5:
-                   ProfleSection();
+                  Statistic();
                     break;
                 case 0:
 					_managing.start();
@@ -104,7 +105,7 @@ namespace AttoProject.controller
         {  
             while (true)
             {
-                Console.WriteLine("------    Card Menu   ------");
+                Console.WriteLine("\n------    CARD MENU   ------\n");
                 Console.WriteLine("1.Create Card");
                 Console.WriteLine("2.Card List");
                 Console.WriteLine("3.Update Card");
@@ -141,48 +142,61 @@ namespace AttoProject.controller
         }
         public void TerminalSection()
         {
-            Console.WriteLine("1.Create Terminal");
-            Console.WriteLine("2.Update Terminal");
-            Console.WriteLine("3.Change Terminal Status");
-            Console.WriteLine("4.Delete Terminal");
-            Console.WriteLine("0.Go back");
-
-            int terminal = getAction();
-            switch (terminal)
+            bool s = true;
+            while(s)
             {
-                case 1:
-                  cardSerivce.createTerminal();
-                    break;
-                case 2:
-                    cardSerivce.updateTerminal();
-                    break;
-                case 3:
-                    cardSerivce.changeTerminalStatus();
-                    break;
-                case 4:
-                    cardSerivce.DeleteTerminal();
-                    break;
-                case 0:
-                    adminMenu();
-                    break;
-                default:
-                    Console.WriteLine("wrong option!");
-                    break;
+                Console.WriteLine("\n---------   TERMINAL MENU   ---------\n");
+                Console.WriteLine("1.Create Terminal");
+                Console.WriteLine("2.Update Terminal");
+                Console.WriteLine("3.Change Status");
+                Console.WriteLine("4.Terminal List");
+                Console.WriteLine("5.Delete Terminal");
+                Console.WriteLine("0.Go back");
+
+                int terminal = getAction();
+                switch (terminal)
+                {
+                    case 1:
+                        cardSerivce.createTerminal();
+                        break;
+                    case 2:
+                        cardSerivce.updateTerminal();
+                        break;
+                    case 3:
+                        cardSerivce.changeTerminalStatus();
+                        break;
+                    case 4:
+                        cardSerivce.terminalList();
+                        break;
+                    case 5:
+                        cardSerivce.DeleteTerminal();
+                        break;
+                    case 0:
+                        adminMenu();
+                        break;
+                    default:
+                        Console.WriteLine("wrong option!");
+                        break;
+                }
             }
+            
         }
         public void ProfleSection()
         {
+            while (true)
+            {
+            Console.WriteLine("\n-------   PROFILE MENU  ------\n");
             Console.WriteLine("1.Profile List");
-            Console.WriteLine("2.Change profile status ");
+            Console.WriteLine("2.Change status ");
             Console.WriteLine("0.Go back");
             int terminal = getAction();
             switch (terminal)
             {
                 case 1:
-                    cardSerivce.getProfileList();
+                    proList();
                     break;
                 case 2:
-                    cardSerivce.changeProfleStatus();
+                    changeStatus();
                     break;
                 case 0:
                     adminMenu();
@@ -191,7 +205,10 @@ namespace AttoProject.controller
                     Console.WriteLine("wrong option!");
                     break;
             }
+            }
         }
+
+
         public void Transaction()
         {
             Console.WriteLine("1.Transaction List");
@@ -228,5 +245,36 @@ namespace AttoProject.controller
             return num;
         }
 
+        //profileList
+        public void proList()
+        {
+            Profile[] list = _managing.getProfileList();
+            Console.WriteLine("------   PROFILE LIST  -------");
+            foreach (var item in list)
+            {
+                if (item != null)
+                {
+                    Console.WriteLine($"Id: {item.Id}, name: {item.Name}, surname: {item.Surname}, Phone: {item.Phone}, password: {item.Password}, createdDate: {item.CreatedDate}, status: {item.Status}, role: {item.Role}");
+                }
+            }
+        }
+      
+        //change profile status
+        private void changeStatus()
+        {
+            Console.Write("Enter phone: ");
+            string phone = Console.ReadLine();
+
+            Profile[] list =_managing.getProfileList();
+            foreach (var item in list)
+            {
+                 if(item!=null && item.Phone.Equals(phone))
+                {
+                    item.Status = "BLOCK";
+                    item.Role = "USER";
+                }
+            }
+            Console.WriteLine("Profile  statsu successfully changed");
+        }
     }
 }

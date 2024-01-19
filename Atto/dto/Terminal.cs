@@ -36,7 +36,7 @@ namespace AttoProject.dto
 
         public override string ToString()
         {
-            return $"id: {Id}, address: {Address}";
+            return $"id: {Id}, address: {Address}, status: {Status}, createdDate: {CreatedDate}";
         }
 
     }

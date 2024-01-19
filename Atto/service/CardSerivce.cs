@@ -9,13 +9,27 @@ namespace AttoProject.service
 {
     public class CardSerivce
     {
+        /*private readonly Managing _managing;
+        public CardSerivce(Managing managing)
+        {
+            _managing = managing;
+        }*/
+
         private Card[] cardList = new Card[100];
         private int cardIndex = 0;
         private int cardId = 1;
 
+        private Terminal[] termialList = new Terminal[100];
+        private int termialIndex = 0;
+
+
+
+
+
+
+
 
         // Card Block
-
         public void createCard()
         {
             Console.Write("Enter card balance: ");
@@ -35,13 +49,13 @@ namespace AttoProject.service
         }
         public void getcardList()
         {
-                    Console.WriteLine("-----   CARD LIST -----");
+            Console.WriteLine("-----   CARD LIST -----");
             foreach (var item in cardList)
             {
                 if (item != null)
                 {
                     Console.WriteLine(item.ToString());
-                 
+
                 }
             }
         }
@@ -71,7 +85,7 @@ namespace AttoProject.service
 
             foreach (var item in cardList)
             {
-                if(item!=null && item.Id == id)
+                if (item != null && item.Id == id)
                 {
                     item.Status = enums.Status.ACTIVE;
                 }
@@ -87,16 +101,16 @@ namespace AttoProject.service
 
             for (int i = 0; i < cardList.Length; i++)
             {
-               Card card = cardList[i];
+                Card card = cardList[i];
 
-                  if(card!=null && card.Id == id)
+                if (card != null && card.Id == id)
                 {
                     deleteIndex = i;
-                }   
+                }
             }
 
 
-            for (int i = deleteIndex; i < cardList.Length-1; i++)
+            for (int i = deleteIndex; i < cardList.Length - 1; i++)
             {
                 cardList[i] = cardList[i + 1];
             }
@@ -105,8 +119,6 @@ namespace AttoProject.service
             cardIndex--;
             Console.WriteLine("CARD SUCCESSFULLY DELETED");
         }
-
-        // get card by id
         public Card getCardById(int id)
         {
             foreach (var card in cardList)
@@ -121,31 +133,122 @@ namespace AttoProject.service
 
 
         // Terminal Block
+
         public void createTerminal()
         {
+            Console.Write("Enter terminal Id: ");
+            int id = int.Parse(Console.ReadLine());
+
+            Console.Write("Enter address: ");
+            string address = Console.ReadLine();
+
+            Terminal exist = getTerminalById(id);
+            if (exist != null)
+            {
+                Console.WriteLine("Sorry Termial already exist!!! ");
+            }
+            Terminal terminal = new Terminal();
+            terminal.Id = id;
+            terminal.Address = address;
+            terminal.Status = enums.Status.BOLOCK;
+            terminal.CreatedDate = DateTime.Now;
+            termialList[termialIndex++] = terminal;
+            Console.WriteLine("TERMINAL SUCCESSFULLY CREATED\n");
         }
         public void updateTerminal()
         {
+            Console.Write("Enter Id: ");
+            int id = int.Parse(Console.ReadLine());
+
+            Console.Write("Enter address: ");
+            string address = Console.ReadLine();
+
+            Console.Write("Enter new address: ");
+            string updateAddress = Console.ReadLine();
+
+            Terminal exist = getTerminalById(id);
+            if (exist != null && exist.Address.Equals(address))
+            {
+                exist.Address = updateAddress;
+                exist.CreatedDate = DateTime.UtcNow;
+            }
+            else if (exist != null && exist.Address != address)
+            {
+                Console.WriteLine("ADDRESS ERROR!");
+            }
+            else
+            {
+                Console.WriteLine("SUCCESSFULLY TERMINAL UPDATE");
+            }
+
         }
         public void changeTerminalStatus()
         {
+            Console.Write("Enter id: ");
+            int id = int.Parse(Console.ReadLine());
+
+            foreach (var item in termialList)
+            {
+                if (item != null && item.Id == id)
+                {
+                    item.Status = enums.Status.ACTIVE;
+                }
+            }
+            Console.WriteLine("SUCCESSFULLY TERMINAL CHANGED STATUS");
+
 
         }
+        
+        public void terminalList()
+        {
+            foreach (var item in termialList)
+            {
+                if (item != null)
+                {
+                    Console.WriteLine(item.ToString());
+                }
+            }
+        }
+     
         public void DeleteTerminal()
         {
+            Console.Write("Enter termial id: ");
+            int id = int.Parse(Console.ReadLine());
+            int deleteIndex = 0;
 
+            for (int i = 0; i < termialList.Length; i++)
+            {
+                Terminal terminal = termialList[i];
+                if (terminal != null && terminal.Id == id)
+                {
+                    deleteIndex = i;
+                }
+            }
+
+            for (int i = deleteIndex; i < termialList.Length - 1; i++)
+            {
+                termialList[i] = termialList[i + 1];
+
+            }
+            termialList[termialList.Length - 1] = null;
+            termialIndex--;
+
+            Console.WriteLine("Terminal successfully deleted");
         }
-
-
-
-        // Profile Blcok
-        public void getProfileList()
+        public Terminal getTerminalById(int id)
         {
+            foreach (var terminal in termialList)
+            {
+                if (terminal != null && terminal.Id == id)
+                {
+                    return terminal;
+                }
+            }
+            return null;
         }
-        public void changeProfleStatus()
-        {
 
-        }
+
+        
 
 
 
@@ -160,7 +263,7 @@ namespace AttoProject.service
 
 
 
-       
+
 
 
 

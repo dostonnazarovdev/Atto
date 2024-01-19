@@ -8,9 +8,12 @@ namespace AttoProject
     public class Managing
     {
         private readonly CardCantroller _cardController;
+     
+
         public Managing()
         {
 			_cardController = new CardCantroller(this);
+           
 		}
 
 
@@ -30,8 +33,7 @@ namespace AttoProject
         private Card[] cardList = new Card[100];
         private int cardIndex = 0;
 
-        private Terminal[] termialList = new Terminal[100];
-        private int termialIndex = 0;
+        
 
         private Transaction[] transactionList = new Transaction[100];
         private int transactionIndex = 0;
@@ -127,21 +129,21 @@ namespace AttoProject
             }
             else
             {
-                Console.WriteLine("Passord or phone is errror!");
+                Console.WriteLine("Passord or phone 0R STATUS OR ROLE is errror!");
             }
         }
 
        
 
         // / GetProfileList
-        public static Profile[] getProfileList()
+        public  Profile[] getProfileList()
         {
             return profileList;
         }
 
 
         //getProfileByIdandName
-        public static Profile getProfileByIdAndName(string phone, string pass)
+        public  Profile getProfileByIdAndName(string phone, string pass)
         {
             foreach (var item in profileList)
             {
@@ -248,45 +250,15 @@ namespace AttoProject
         }
 
 
-        // addTerminal
-        public Terminal createdTerminal(int id, String address)
-        {
-            Terminal exist = getTerminalById(id);
-            if (exist != null)
-            {
-                Console.WriteLine("Sorry Termial already exist!!! ");
-            }
-            Terminal terminal = new Terminal();
-            terminal.Id = id;
-            terminal.Address = address;
-            termialList[termialIndex++] = terminal;
-            return terminal;
-        }
+       
 
 
-        //getTermianlById
-        public Terminal getTerminalById(int id)
-        {
-            foreach (var terminal in termialList)
-            {
-                if (terminal != null && terminal.Id == id)
-                {
-                    return terminal;
-                }
-            }
-            return null;
-        }
+      
 
-
-        //terminalList
-        public Terminal[] terminalList()
-        {
-            return termialList;
-        }
 
 
         //makeTransaction
-        public Transaction makeTransaction(int cardId, int terminalId)
+    /*    public Transaction makeTransaction(int cardId, int terminalId)
         {
             // 1. null  agar terminal topilmasa
             // 2. null agar  carta topilmasa
@@ -295,7 +267,7 @@ namespace AttoProject
             // 5.  agar hammasi to'g'ri bo'lsa  Transaction objecti
 
             Transaction transaction = new Transaction();
-            Terminal terminal = getTerminalById(terminalId);
+          Terminal terminal = getTerminalById(terminalId);
             Card card = getCardById(cardId);
 
             if (terminal == null && card == null && card.Balance < 1399)
@@ -315,7 +287,7 @@ namespace AttoProject
             transactionList[transactionIndex++] = transaction;
             return transaction;
         }
-
+*/
 
         // Transaction getById
         public Transaction getById(int id)
